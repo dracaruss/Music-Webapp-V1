@@ -32,7 +32,21 @@ While in Cognito I setup my Identity Pool, and connected it to be authorized fro
 
 Moving to IAM I prepared the role for my authenticated users.
 
-![3 5 congito identity role](https://github.com/user-attachments/assets/87402b88-496c-4b82-8c64-c7daea558623)
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Action": [
+                            "s3:GetObject",
+                            "s3:PutObject"
+                         ],
+                         "Effect": "Allow",
+                         "Resource": [
+                             "arn:aws:s3:::remixking-backend-landingpage/*"
+                         ]
+                     }
+                ]
+            }
 
 Now it's time to build my javascript landing page that will parse the idToken from the URL.
 
@@ -76,7 +90,7 @@ And lastly attach the Authorizer to the GET method, ok great I'll touch back the
 
 ##
 
-Ok back to business, once the idToken creates the Identity user with the temporary privileges, I redirect users to the business end of the app, the actual 'Upload' function. The javascript of this page grabs a file, and validates that it's a music file.
+Ok back to business, once the idToken creates the Identity user with the temporary privileges, I redirect users to the business end of the app, the actual 'Upload' function. The javascript of this page grabs a file, and validates that it's a music file. I'll add some server side validation in the future to also sanitize the input.
 
         <div class="upload-section">
             <label for="fileInput" class="upload-label">
@@ -88,6 +102,53 @@ Ok back to business, once the idToken creates the Identity user with the tempora
             <div class="upload-info">Only MP3 and WAV files are supported</div>
         </div>
 
+Then to load the song to the backend bucket to a 'songs' folder.
+
+            // Use Fetch API to send the file to S3
+            fetch('https://remixking-upload-bucket.s3.us-east-1.amazonaws.com/songs/' + file.name, {
+                method: 'PUT', // Use PUT method for direct file upload
+                body: file // Send the file as the body
+            })
+            .then(response => {
+                if (response.ok) {
+                    status.textContent = "File uploaded successfully!";
+                    status.className = 'success';
+                } else {
+                    status.textContent = "Failed to upload file.";
+                    status.className = 'error';
+                }
+            })
+            .catch(error => {
+                status.textContent = "Error: " + error.message;
+                status.className = 'error';
+            });
+
+The upload function is now ready and working!
+
+![19 upload page is now served](https://github.com/user-attachments/assets/9bd3ae06-a321-40b4-80e8-31057ca590bc)
+
+##
+
+The last step is to front the web page with CloudFront, and set it up to only allow access to it using OAC.
+
+![22 setup OAC on cloudfront](https://github.com/user-attachments/assets/0e4aa099-0ede-48af-9bf5-579bff1a5bd2)
+
+And for additional protection, turn on the CloudFront WAF.
+
+![23 enable WAF on cloudfront](https://github.com/user-attachments/assets/a0fe7fd5-dbd3-446d-b978-d44fe4a0bc83)
+
+The very last step is to enable CORS on the backend bucket.
+
+![21 set backend S3 CORS policy](https://github.com/user-attachments/assets/06a5ac57-0c61-4de7-8e42-da1c4f959588)
+
+And also to setup the policy on the front end S3 bucket to only allow access from CloudFront.
+
+![24 change user pool redirect page to point to cloudfront now](https://github.com/user-attachments/assets/a0412281-66ad-4939-aa1f-d922b1a8836a)
 
 
-![14 call function from backend to load page to secure songs folder](https://github.com/user-attachments/assets/be97dfb0-760c-4862-957e-42f4f9d183a0)
+
+
+
+
+
+
