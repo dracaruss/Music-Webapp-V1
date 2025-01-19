@@ -30,7 +30,7 @@ While in Cognito I setup my Identity Pool, and connected it to be authorized fro
 
 ![3 identity pool](https://github.com/user-attachments/assets/2c7b7c9e-e0af-45df-80a5-31fbc54ff482)
 
-Moving to IAM I prepared the role for my authenticated users.
+Moving to IAM I prepared the JSON policy for the role that my authenticated users would inherit.
 
             {
                 "Version": "2012-10-17",
@@ -48,13 +48,42 @@ Moving to IAM I prepared the role for my authenticated users.
                 ]
             }
 
-Now it's time to build my javascript landing page that will parse the idToken from the URL.
+Now it's time to build my javascript landing page with code that will parse the idToken from the URL.
 
-![4 get idtoken and exchange for identity pool temp aws creds](https://github.com/user-attachments/assets/9a174c10-57b1-40ea-8acf-d4ca94ebe8f6)
+        async function addUserToIdentityPool(idToken) {
+            const client = new AWS.CognitoIdentity({ region: REGION });
+            try {
+                const response = await client.getId({
+                    IdentityPoolId: IDENTITY_POOL_ID,
+                    Logins: {
+                        [`cognito-idp.${REGION}.amazonaws.com/${USER_POOL_ID}`]: idToken,
+                    },
+                }).promise();
 
+                const credentials = await client.getCredentialsForIdentity({
+                    IdentityId: response.IdentityId,
+                    Logins: {
+                        [`cognito-idp.${REGION}.amazonaws.com/${USER_POOL_ID}`]: idToken,
+                    },
+                }).promise();
+                
 In the public facing bucket I need to load my webpage files, and configure my 'Register' button to redirect to the Cognito Hosted UI I just setup.
+##
 
-![5 index points to cognito and backend upload page](https://github.com/user-attachments/assets/9449f6f0-d4ee-4abe-9303-d38f5b67cb0e)
+		  <nav id="navbar-spy" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+			  <li><a href="#slides">HOME</a></li>
+			  <li><a href="#studio">STUDIO</a></li>
+			  <li><a href="#services">SERVICES</a></li>
+			  <li><a href="#gallery">MUSIC</a></li>
+			  <li><a href="#team">TEAM</a></li>
+			  <li><a href="https://remixking-backend-landingpage.s3.us-east-1.amazonaws.com/upload_page2025_4.html">UPLOAD SONG</a></li>
+			  <li><a href="#contact">CONTACT</a></li>
+			  <li>
+				<a href="#" id="registerButton" class="btn btn-primary">Register</a>
+				<script>
+				  document.getElementById('registerButton').addEventListener('click', function(event) {
+					event.preventDefault(); // Prevent the default action of the link
 
 Once 'Register' is clicked by users, they will be redirected to sign up via Cognito.
 
@@ -62,7 +91,15 @@ Once 'Register' is clicked by users, they will be redirected to sign up via Cogn
 
 After signing up and authenticating, Cognito redirects users to my JS page which takes the idToken in URL (I know not secure) and uses it to create an authenticated user in identity pool.
 
-![7 use the idtoken to get identity creds](https://github.com/user-attachments/assets/a0ea7239-6f03-446f-822f-c33f0dbce58d)
+        async function addUserToIdentityPool(idToken) {
+            const client = new AWS.CognitoIdentity({ region: REGION });
+            try {
+                const response = await client.getId({
+                    IdentityPoolId: IDENTITY_POOL_ID,
+                    Logins: {
+                        [`cognito-idp.${REGION}.amazonaws.com/${USER_POOL_ID}`]: idToken,
+                    },
+                }).promise();
 
 ##
 
