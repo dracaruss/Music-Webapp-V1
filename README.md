@@ -24,7 +24,7 @@ Next I configured them for web hosting.
 
 After I setup my cognito user pool for authentication
 
-![1 1 setup user pool](https://github.com/user-attachments/assets/bca6f71a-974a-4e3d-895a-5b621acab997)
+![1 1 setup user pool](https://github.com/user-attachments/assets/c1104f8e-8110-42bd-bdea-100e9c24a3e2)
 
 While in Cognito I setup my Identity Pool, and connected it to be authorized from my User Pool.
 
