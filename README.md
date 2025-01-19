@@ -1,14 +1,12 @@
-# Apache-EC2-Server-Setup
+# Serverless Web App - RemixKing.net
 
-Russell here this time to show the steps I took to create my Serverless AWS Web App!
+Russell here again. This time I'll show the steps I'm taking to create and secure my Serverless AWS Web App.
 
-In this instance I am first configuring the app to use authentication via Cognito using the implicit method, where the token is exposed in the URL.
-In subsequent builds, I'll use the 'code'
+The end result is to get my web app allowing only authenticated users access to upload music files (only) to my backend data bucket.
+The authentication is done through Cognito, and the app utilizes Api-Gateway, IAM, Lambda, HTML/Javascript and S3 Buckets services also to achieve the working end result.
 
-Follow me as I demonstrate how to set up an Apache web server on EC2 in AWS in 3 different ways. 
-First through the AWS console.
-Second by terraform.
-Third by using Jenkins to automate the terraform and entire workflow.
+I will do different versions of this project, as it's a work in progress. 
+In this initial setup the JWT token will be exposed (unsafely) in the URL. I know its unsafe but I want to run through all scenarios to develop my experience with building and fixing different issues.
 
 ##
 
