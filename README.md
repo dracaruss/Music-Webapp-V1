@@ -184,12 +184,14 @@ And also to setup the bucket policy on the front end S3 bucket to only allow acc
 
 ##
 
-Ok great, all up and running, but insecure 😭 because the idToken is in the URL. Fear not! Version 2 of the App is working on as we speak (with the Project walkthrough ofcourse).
+Ok great, all up and running, but insecure 😭 because the idToken is in the URL. 
+
+Fear not! Version 2 of the App will fix all of that!
 In the next version I will use OAuth 2.0 with code validation instead of implicit grant, to hide the idToken in the Authorization header.
 
 ##
 
-Stay tuned!
+Stay tuned! Russell.
 
 
 
