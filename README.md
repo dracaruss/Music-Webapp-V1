@@ -174,7 +174,7 @@ And for additional App protection, I turned on the CloudFront WAF.
 
 ![23 enable WAF on cloudfront](https://github.com/user-attachments/assets/a0fe7fd5-dbd3-446d-b978-d44fe4a0bc83)
 
-The very last step was to enable CORS on the backend bucket.
+The very last step was to enable CORS on the backend bucket for POST, and then refine the policy from * to authorized.
 
 ![21 set backend S3 CORS policy](https://github.com/user-attachments/assets/06a5ac57-0c61-4de7-8e42-da1c4f959588)
 
