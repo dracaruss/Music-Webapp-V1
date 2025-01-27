@@ -1,6 +1,6 @@
 # Serverless Web App - RemixKing.net
 
-This is the link to the development work in progress live app: https://d1dlrsjxqn5nwj.cloudfront.net/index.html
+This is the link to the development work in progress live app: https://www.remixking.net
 
 Russell here again. This time I'll show the steps I'm taking to create and secure my Serverless AWS Web App.
 
