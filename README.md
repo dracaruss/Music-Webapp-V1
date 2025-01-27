@@ -4,8 +4,8 @@ This is the link to the development work in progress live app: https://www.remix
 
 Russell here again. This time I'll show the steps I'm taking to create and secure my Serverless AWS Web App.
 
-The end result is to get my web app allowing only authenticated users access to upload music files (only) to my backend data bucket.
-The authentication is done through Cognito, and the app utilizes Api-Gateway, IAM, Lambda, HTML/Javascript and S3 Buckets services also to achieve the working end result.
+The end result is to get my web app allowing only authenticated users access to upload music files to my backend data bucket.
+The authentication is done through Cognito, and the app utilizes Api-Gateway, IAM, Lambda, HTML/Javascript and S3 Buckets services to achieve the working end result.
 
 I will do different versions of this project, as it's being improved on daily. 
 In this initial setup the JWT token will be exposed (unsafely) in the URL. Though I know its unsafe, I want to run through all scenarios to develop my experience with building and fixing different issues.
